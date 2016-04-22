@@ -37,4 +37,15 @@ distHamming [] s = []
 distHamming (x:xs) s = [wordDistHamming x s]++distHamming xs s
 
 
+--UNA LISTA DE STRING Y CALCULAR SUS PERMUTACIONES POR INDICE PASANDO UN STRING
+permutaStrings :: String->[String]->[String]
+permutaStrings a [] = []
+permutaStrings a (x:xs)= hammi a x ++ permutaStrings a xs
+
+--PERMUTA CADA PALABRA DE LA LISTA CON EL RESTO DE ELLA
+permutaAll :: [String]->[String]
+permutaAll [] = []
+permutaAll (x:xs)= permutaStrings x xs ++ permutaAll xs
+
+--LIMPIAR REPETIDOS DE PERMUTA ALL
 
