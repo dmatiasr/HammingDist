@@ -1,1 +1,10 @@
 # HammingDist
+
+###### Buen dia 
+
+## TODO
+*Testear para mas cadenas y controlar a papel.
+*Cambiar los nombres a "hammi" y a "hammiList".
+*Hacer una funcion para tomar una lista de string y calcular sus permutaciones por indice (modificando "hammi" o crear nueva)
+*Unir todas las funciones para resolver el ejercicio propuesto
+*comprar 1/2kg de pan y azucar
