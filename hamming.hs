@@ -55,9 +55,9 @@ permutaAll (x:xs)= permutaStrings x xs ++ permutaAll xs
 -- Y SACAR LAS DISTANCIAS
 --VER CASOS BASE
 compareStrings :: [String]->[String]->[Int]
-compareStrings [] [] = [0]
-compareStrings xs [] = [0]
-compareStrings [] ys = [0]
+compareStrings [] [] = [100] --Este numero del caso base lo va a a pegar al final asi q tengo q removerlo
+compareStrings xs [] = [100]
+compareStrings [] ys = [100]
 compareStrings (x:xs)(y:ys)= distHamming (y:ys) x ++ compareStrings xs (y:ys)
 
 
@@ -65,23 +65,14 @@ compareStrings (x:xs)(y:ys)= distHamming (y:ys) x ++ compareStrings xs (y:ys)
 calcAllDistance :: [String]->[Int]
 calcAllDistance [] = [0]
 calcAllDistance (x:xs)= compareStrings (x:xs) (rm (permutaAll (x:xs)) ) 
---ys es la lista de permutaciones
 
 
--- distHammingAll (x:xs) distHamming (rm (permutaAll (x:xs))) x ++ distHammingAll (xs) 
---le van a faltar el resto de permutaciones que se fueron con el primer x para comparar con el 2do
+--UN K Y LA LISTA DE DISTANCIAS Y CALCULA SI ES VERDADERO SI EXISTE
+--ALGUN INT MENOR QUE EL K
+--existHamming :: Int->[String]-> Bool
+--existHamming  k [] = True
+--existHamming  k (x:xs)  | k == 0 = error "K igual a 0"
+--						| k >= x = True || existHamming k xs
+--						| otherwise = False || existHamming k xs
 
-
---39 [1,2,1,2,1,1,2,1,0,1,2,4,4,3,3,2,2,3,2,2,3,3,4,4,3,1,2,1,3,2,1,0,3,2,3,1,2,3,4]
---25
-
-
---["hola","pera","coso"]
---[1,2,1,2,1,1,2,1,0,1,2,4,4,3,3,2,2,3,2,2,3,3,4,4,3, pera= 1,2,1,3,2,1,0,3,2,3,1,2,3,4]
---["hora","hera","hela","pela","pola","holo","hoso","hosa","hola","cola","colo",
---"pero","peso","pesa","poso","posa","pora","pera","cosa","cora","coro","cera",
---"cero","ceso","coso"]
-
-
-
-
+--HACER FUNCION QUE COMPONGA LA ANTERIOR (ULTIMA)
