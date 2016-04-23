@@ -50,29 +50,48 @@ permutaAll [] = []
 permutaAll (x:xs)= permutaStrings x xs ++ permutaAll xs
 
 --LIMPIAR REPETIDOS DE PERMUTA ALL
-
 --COMPARAR CADA PALABRA CON TODAS LAS PERMUTACIONES DE TODAS LAS PALABRAS.
 -- Y SACAR LAS DISTANCIAS
 --VER CASOS BASE
-compareStrings :: [String]->[String]->[Int]
-compareStrings [] [] = [100] --Este numero del caso base lo va a a pegar al final asi q tengo q removerlo
-compareStrings xs [] = [100]
-compareStrings [] ys = [100]
-compareStrings (x:xs)(y:ys)= distHamming (y:ys) x ++ compareStrings xs (y:ys)
 
+--COMPARAR UNA PERMUTACIION CON TODAS LAS PALABRAS. LUEGO PROCEDER CON LA SEGUNDA PERMUTACION
+--Y COMPARAR CON TODAS LAS PALABRAS
+				--PALABRAS XS --PERMUTACIONES XS --
+compareStrings :: [String]->[String]->[[Int]]
+compareStrings [] [] = [[]] 
+compareStrings xs [] = [[]]
+compareStrings [] ys = [[]]
+compareStrings (x:xs)(y:ys)= [ distHamming (x:xs) y ]++ compareStrings (x:xs) ys
+							--palabras con 1er permut
 
 --ARMA UNA LISTA CON TODAS LAS DISTANCIAS ENTRE CADA PALABRA Y LAS PERMUTACIONES DE TODAS
-calcAllDistance :: [String]->[Int]
-calcAllDistance [] = [0]
+calcAllDistance :: [String]->[[Int]]
+calcAllDistance [] = [[0]]
 calcAllDistance (x:xs)= compareStrings (x:xs) (rm (permutaAll (x:xs)) ) 
 
 
---UN K Y LA LISTA DE DISTANCIAS Y CALCULA SI ES VERDADERO SI EXISTE
+--COMPARA UN K Y UNA LISTA DE DISTANCIA DE UNA PERMUTACION. 
 --ALGUN INT MENOR QUE EL K
---existHamming :: Int->[String]-> Bool
---existHamming  k [] = True
---existHamming  k (x:xs)  | k == 0 = error "K igual a 0"
---						| k >= x = True || existHamming k xs
---						| otherwise = False || existHamming k xs
 
---HACER FUNCION QUE COMPONGA LA ANTERIOR (ULTIMA)
+compareK :: Int->[Int]-> Bool
+compareK  k [] = True
+compareK  k (x:xs)| k == 0 = error "K=0: No se puede resolver" 
+				  | k >= x = True && compareK k xs
+				  | otherwise = False && compareK k xs
+
+
+--COMPARA EL K CON TODAS LAS LISTAS DE DISTANCIAS DE CADA PERMUTACION
+compareKAllPerms:: Int ->[[Int]]->Bool
+compareKAllPerms k [[]] = False
+compareKAllPerms k (xs:xss) = compareK k xs || compareKAllPerms k xss
+
+
+--HammingExist DADO UN K, ANALIZA SI EXISTE AL MENOS UNA PERMUTACION, QUE SEA MENOR O IGUAL
+--EN DISTANCIA HAMMING A K,
+--QUE RESULTE DE PERMUTAR CADA DIGITO DE CADA PALABRA CON LAS DEMAS.
+
+--LA FUNCION PRINCIPAL QUE TOMA UN K Y UNA LISTA DE PALABRAS y RETORNA EL VALOR DE VERDAD
+--DE SI EXISTE UNA PERMUTACION CON DISTANCIA HAMMING MENOR O IGUAL A K
+hammingExistMain :: Int->[String]->Bool
+hammingExistMain k xs = compareKAllPerms k ( calcAllDistance xs)
+
