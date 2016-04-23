@@ -37,7 +37,9 @@ distHamming [] s = []
 distHamming (x:xs) s = [wordDistHamming x s]++distHamming xs s
 
 
---UNA LISTA DE STRING Y CALCULAR SUS PERMUTACIONES POR INDICE PASANDO UN STRING
+
+
+--PERMUTA UNA LISTA DE STRING BASADO EN UN STRING
 permutaStrings :: String->[String]->[String]
 permutaStrings a [] = []
 permutaStrings a (x:xs)= hammi a x ++ permutaStrings a xs
@@ -48,4 +50,38 @@ permutaAll [] = []
 permutaAll (x:xs)= permutaStrings x xs ++ permutaAll xs
 
 --LIMPIAR REPETIDOS DE PERMUTA ALL
+
+--COMPARAR CADA PALABRA CON TODAS LAS PERMUTACIONES DE TODAS LAS PALABRAS.
+-- Y SACAR LAS DISTANCIAS
+--VER CASOS BASE
+compareStrings :: [String]->[String]->[Int]
+compareStrings [] [] = [0]
+compareStrings xs [] = [0]
+compareStrings [] ys = [0]
+compareStrings (x:xs)(y:ys)= distHamming (y:ys) x ++ compareStrings xs (y:ys)
+
+
+--ARMA UNA LISTA CON TODAS LAS DISTANCIAS ENTRE CADA PALABRA Y LAS PERMUTACIONES DE TODAS
+calcAllDistance :: [String]->[Int]
+calcAllDistance [] = [0]
+calcAllDistance (x:xs)= compareStrings (x:xs) (rm (permutaAll (x:xs)) ) 
+--ys es la lista de permutaciones
+
+
+-- distHammingAll (x:xs) distHamming (rm (permutaAll (x:xs))) x ++ distHammingAll (xs) 
+--le van a faltar el resto de permutaciones que se fueron con el primer x para comparar con el 2do
+
+
+--39 [1,2,1,2,1,1,2,1,0,1,2,4,4,3,3,2,2,3,2,2,3,3,4,4,3,1,2,1,3,2,1,0,3,2,3,1,2,3,4]
+--25
+
+
+--["hola","pera","coso"]
+--[1,2,1,2,1,1,2,1,0,1,2,4,4,3,3,2,2,3,2,2,3,3,4,4,3, pera= 1,2,1,3,2,1,0,3,2,3,1,2,3,4]
+--["hora","hera","hela","pela","pola","holo","hoso","hosa","hola","cola","colo",
+--"pero","peso","pesa","poso","posa","pora","pera","cosa","cora","coro","cera",
+--"cero","ceso","coso"]
+
+
+
 
