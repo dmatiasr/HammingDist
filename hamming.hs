@@ -85,13 +85,17 @@ compareKAllPerms:: Int ->[[Int]]->Bool
 compareKAllPerms k [[]] = False
 compareKAllPerms k (xs:xss) = compareK k xs || compareKAllPerms k xss
 
+--VERIFICAR QUE TODAS LAS LISTAS TIENEN EL MISMO TAMAÑO
+--PARA UNA LISTA VERIFICAR CON EL RESTO (SOlO ES NECESARIO COMPARAR UNA CON EL RESTO)
+lengthStrings ::String->[String]->Bool
+lengthStrings as [] = True
+lengthStrings as (x:xs)| length as== length x = True && lengthStrings as xs
+					   | otherwise = False
 
---HammingExist DADO UN K, ANALIZA SI EXISTE AL MENOS UNA PERMUTACION, QUE SEA MENOR O IGUAL
+--HammingExistMain DADO UN K, ANALIZA SI EXISTE AL MENOS UNA PERMUTACION, QUE SEA MENOR O IGUAL
 --EN DISTANCIA HAMMING A K,
 --QUE RESULTE DE PERMUTAR CADA DIGITO DE CADA PALABRA CON LAS DEMAS.
-
---LA FUNCION PRINCIPAL QUE TOMA UN K Y UNA LISTA DE PALABRAS y RETORNA EL VALOR DE VERDAD
---DE SI EXISTE UNA PERMUTACION CON DISTANCIA HAMMING MENOR O IGUAL A K
 hammingExistMain :: Int->[String]->Bool
-hammingExistMain k xs = compareKAllPerms k ( calcAllDistance xs)
+hammingExistMain k (x:xs) | lengthStrings x xs == False = error "Las cadenas tienen diferente tamaño" 
+						  | lengthStrings x xs == True = compareKAllPerms k ( calcAllDistance (x:xs))
 
